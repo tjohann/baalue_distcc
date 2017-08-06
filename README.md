@@ -108,6 +108,9 @@ monitor the build process
 
 To monitor the build process use distccmon-gnome or distccmon-text (distccmon-text 1 will update every second).
 
+Distcc in action:
+![Alt text](pics/libbaalue.png?raw=true "distcc in action")
+
 
 use distcc to build libbaalue
 -----------------------------
@@ -181,10 +184,10 @@ Conclusion: "localhost baalue-01/4 baalue-02/4 baalue-03/4 baalue-04/4 baalue-05
 TODO: check with pump and localhost removed from distcc/hosts
 
 
-use distcc to build libbaalue
------------------------------
+use distcc to build baalued
+---------------------------
 
-Here're some build times of libbalue with and without using distcc.
+Here're some build times of baalued with and without using distcc.
 
 without distcc:
 
@@ -222,7 +225,7 @@ without distcc:
 
 with distcc (localhost NOT included in distcc/hosts and 4 threads per node):
 
-        make CC=distcc -j32 LOADADDR=0x40008000 uImage modules dtbs
+	make CC=distcc -j32 LOADADDR=0x40008000 uImage modules dtbs
 
 	real 176m21,388s
 	user 210m21,680s
@@ -230,15 +233,27 @@ with distcc (localhost NOT included in distcc/hosts and 4 threads per node):
 
 with distcc (localhost included in distcc/hosts and 4 threads per node):
 
-        make CC=distcc -j32 LOADADDR=0x40008000 uImage modules dtbs
+	make CC=distcc -j32 LOADADDR=0x40008000 uImage modules dtbs
 
 	real    179m18,146s
 	user    215m1,460s
 	sys     126m22,640s
 
-Conclusion: XXXXXXXX
 
-TODO: check with pump and localhost removed from distcc/hosts
+Example load off the build nodes:
+![Alt text](pics/distcc_build_kernel_node_01.png?raw=true "load of node 01")
+![Alt text](pics/distcc_build_kernel_node_02.png?raw=true "load of node 02")
+![Alt text](pics/distcc_build_kernel_node_06.png?raw=true "load of node 06")
+![Alt text](pics/distcc_build_kernel_node_08.png?raw=true "load of node 08")
+
+Measurement result:
+
+- using distcc to build brings a performance gain
+- to add localhost brings no significant performance gain
+
+Conclusion: "localhost baalue-01/4 baalue-02/4 baalue-03/4 baalue-04/4 baalue-05/4 baalue-06/4 baalue-07/4 baalue-08/4" and "make -j32 CC=distcc" brings the best perfomance.
+
+TODO: check with pump
 
 Hint: CONFIG_GCOV_KERNEL must be turned off otherwise the build nodes wont be used. Also remember that the preprocessing and final linking steps are done on the local node (this can take 20-30% of the total time ... if not using pump) (see https://lwn.net/Articles/702375/)
 
