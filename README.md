@@ -1,5 +1,5 @@
-some stuff for my blog around distcc
-====================================
+Some stuff around distcc
+========================
 
 I dont want to repeat what others already said, so here is a link to the distcc repo as a starting point -> https://github.com/distcc/distcc .
 Note: for more detailed infos check https://wiki.gentoo.org/wiki/Distcc
@@ -11,7 +11,7 @@ My A20 based cluster (baalue -> https://github.com/tjohann/a20_sdk/blob/master/p
 Another build starting point is to build the latest emacs version (http://ftp.gnu.org/gnu/emacs/emacs-25.2.tar.xz), because it's not available via void-packages.
 
 
-setup distcc
+Setup distcc
 ------------
 
 The installation via xbps-install (distcc/distcc-pump/distcc-gtk) adds the two following config files:
@@ -49,14 +49,14 @@ to ~/.bashrc.
 To use zeroconf via avahi add "+zeroconf" to hosts (i dont use it).
 
 
-summary setup
+Summary setup
 -------------
 
 - add clients.allow to every node (with 192.168.0.0/24 to make it easier)
 - add hosts to the server node with the list of all clients (127.0.0.1/2 192.168.0.80/2 192.168.0.81/2 192.168.0.82/2 ...)
 
 
-check the config with hello-distcc build
+Check the config with hello-distcc build
 ----------------------------------------
 
 To check if everthing works (see folder ./Programming), compile this small peace of code via distcc:
@@ -82,7 +82,7 @@ Execute hello_distcc and then delete it to try with pump mode:
 Both versions should work.
 
 
-general usage
+General usage
 -------------
 
 Within a make based project you can use:
@@ -103,7 +103,7 @@ To save/show the temps set
 Do not use -march=native or -mtune=native in the CFLAGS or CXXFLAGS, because this could cause different optimisation on the different nodes (here on my build cluster it's not a problem).
 
 
-monitor the build process
+Monitor the build process
 -------------------------
 
 To monitor the build process use distccmon-gnome or distccmon-text (distccmon-text 1 will update every second).
@@ -113,7 +113,7 @@ Distcc in action:
 ![Alt text](pics/libbaalue.png?raw=true "distcc in action")
 
 
-use distcc to build libbaalue
+Use distcc to build libbaalue
 -----------------------------
 
 Here're some build times of libbalue with and without using distcc.
@@ -185,7 +185,7 @@ Conclusion: "localhost baalue-01/4 baalue-02/4 baalue-03/4 baalue-04/4 baalue-05
 TODO: check with pump and localhost removed from distcc/hosts
 
 
-use distcc to build baalued
+Use distcc to build baalued
 ---------------------------
 
 Here're some build times of baalued with and without using distcc.
@@ -211,7 +211,7 @@ Measurement result:
 - using distcc brings no performance gain
 
 
-use distcc to build linux kernel
+Use distcc to build linux kernel
 --------------------------------
 
 Example on how to build a linux kernel for a bananapi (https://github.com/tjohann/a20_sdk/blob/master/bananapi/Documentation/howto_kernel.txt)
@@ -265,7 +265,7 @@ TODO: check with pump
 Hint: CONFIG_GCOV_KERNEL must be turned off otherwise the build nodes wont be used. Also remember that the preprocessing and final linking steps are done on the local node (this can take 20-30% of the total time ... if not using pump) (see https://lwn.net/Articles/702375/)
 
 
-use distcc to build emacs
+Use distcc to build emacs
 -------------------------
 
 Howto build emacs (http://ftp.gnu.org/gnu/emacs/):
@@ -273,14 +273,14 @@ Howto build emacs (http://ftp.gnu.org/gnu/emacs/):
 	./configure --with-x-toolkit=gtk2 --prefix=/usr/local
 
 
-use distcc with void-packages
+Use distcc with void-packages
 -----------------------------
 
 https://github.com/tjohann/a20_sdk/blob/master/bananapi/configs/conf_void_package_distcc
 
 
 
-use distcc to build arm926 toolchain/rootfs via buildroot for arietta
+Use distcc to build arm926 toolchain/rootfs via buildroot for arietta
 ---------------------------------------------------------------------
 
 Some background infos: https://wiki.gentoo.org/wiki/Distcc/Cross-Compiling
@@ -288,7 +288,7 @@ Some background infos: https://wiki.gentoo.org/wiki/Distcc/Cross-Compiling
 For my arietta devices/project i created a sdk repository (https://github.com/tjohann/arietta_sdk) similiar to the a20_sdk. It is the basic for a buildroot based root filesstem and cross-toolchain.
 
 
-masquerade mode
+Masquerade mode
 ---------------
 
 To generally use distcc instead of gcc or cc do the following (see also man distcc):
@@ -301,7 +301,7 @@ To generally use distcc instead of gcc or cc do the following (see also man dist
 Now add /usr/lib/distcc/bin to your $PATH *before* the "normal" gcc -> add it to the front. In void-linux the links are created by the distcc package.
 
 
-some more thoughts
+Some more thoughts
 ------------------
 
 There's a really interesting article form Willy Tarreau(http://1wt.eu/) about build farm/cluster and linux -> https://lwn.net/Articles/702375 (see the video https://www.youtube.com/watch?v=vwQ-KcjskRw&index=1&list=PLfnwKJbklIxwp09N5bM-Oj9bJzTAC3JsV and http://wiki.ant-computing.com/Choosing_a_processor_for_a_build_farm for his wiki)
