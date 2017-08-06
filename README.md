@@ -167,7 +167,7 @@ with distcc (localhost not included and 4 threads per node in distcc/hosts):
 
 with distcc (localhost included and 4 threads per node in distcc/hosts):
 
-     	make -j32 CC=distcc
+	make -j32 CC=distcc
 
 	real 0m11,783s
 	user 0m7,730s
@@ -192,7 +192,7 @@ Here're some build times of baalued with and without using distcc.
 
 without distcc:
 
-        make -j4
+	make -j4
 
 	real 0m4,577s
 	user 0m2,200s
@@ -200,7 +200,7 @@ without distcc:
 
 with distcc (localhost included and 4 threads per node in distcc/hosts):
 
-        make -j32 CC=distcc
+	make -j32 CC=distcc
 
 	real 0m4,728s
 	user 0m2,180s
