@@ -109,6 +109,7 @@ monitor the build process
 To monitor the build process use distccmon-gnome or distccmon-text (distccmon-text 1 will update every second).
 
 Distcc in action:
+
 ![Alt text](pics/libbaalue.png?raw=true "distcc in action")
 
 
@@ -240,10 +241,16 @@ with distcc (localhost included in distcc/hosts and 4 threads per node):
 	sys     126m22,640s
 
 
-Example load off the build nodes:
+Example load off the build nodes 1:
 ![Alt text](pics/distcc_build_kernel_node_01.png?raw=true "load of node 01")
+
+Example load off the build nodes 2:
 ![Alt text](pics/distcc_build_kernel_node_02.png?raw=true "load of node 02")
+
+Example load off the build nodes 6:
 ![Alt text](pics/distcc_build_kernel_node_06.png?raw=true "load of node 06")
+
+Example load off the build nodes 8:
 ![Alt text](pics/distcc_build_kernel_node_08.png?raw=true "load of node 08")
 
 Measurement result:
