@@ -59,7 +59,7 @@ summary setup
 check the config with hello-distcc build
 ----------------------------------------
 
-To check if everthing works, compile this small peace of code via distcc:
+To check if everthing works (see folder ./Programming), compile this small peace of code via distcc:
 
 	#include <stdio.h>
 
@@ -77,7 +77,7 @@ To check if everthing works, compile this small peace of code via distcc:
 Execute hello_distcc and then delete it to try with pump mode:
 
 	pump distcc gcc -c hello_distcc.c -o hello_distcc.o
-	gcc main.o -o hello_distcc
+	gcc hello_distcc.o -o hello_distcc
 
 Both versions should work.
 
@@ -216,17 +216,25 @@ without distcc:
 
 	make -j4 LOADADDR=0x40008000 uImage modules dtbs
 
-	real    439m48,806s
-	user    701m3,820s
-	sys     158m7,850s
+	real 439m48,806s
+	user 701m3,820s
+	sys  158m7,850s
 
-with distcc (localhost not included in distcc/hosts and for threads per node):
+with distcc (localhost NOT included in distcc/hosts and 4 threads per node):
 
         make CC=distcc -j32 LOADADDR=0x40008000 uImage modules dtbs
 
-        real 0mxx,xxxs
-	user 0mxx,xxxs
-	sys  0mxx,xxxs
+	real 176m21,388s
+	user 210m21,680s
+	sys  125m40,720s
+
+with distcc (localhost included in distcc/hosts and 4 threads per node):
+
+        make CC=distcc -j32 LOADADDR=0x40008000 uImage modules dtbs
+
+	real    179m18,146s
+	user    215m1,460s
+	sys     126m22,640s
 
 Conclusion: XXXXXXXX
 
