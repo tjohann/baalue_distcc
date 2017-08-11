@@ -240,6 +240,9 @@ with distcc (localhost included in distcc/hosts and 4 threads per node):
 	user    215m1,460s
 	sys     126m22,640s
 
+	real 173m47,858s
+	user 204m5,050s
+	sys  125m34,440s
 
 Example load off the build nodes 1:
 ![Alt text](pics/distcc_build_kernel_node_01.png?raw=true "load of node 01")
@@ -273,10 +276,77 @@ Howto build emacs (http://ftp.gnu.org/gnu/emacs/):
 	./configure --with-x-toolkit=gtk2 --prefix=/usr/local
 
 
+without distcc:
+
+	make -j4
+
+	real 20m51,025s
+	user 31m12,050s
+	sys  3m50,630s
+
+with distcc (localhost included in distcc/hosts and 4 threads per node):
+
+	make -j32 CC=distcc
+
+	real 8m51,168s
+	user 4m57,280s
+	sys  2m23,390s
+
+Measurement result:
+
+- using distcc to build brings a performance gain
+
+
 Use distcc with void-packages
 -----------------------------
 
-https://github.com/tjohann/a20_sdk/blob/master/bananapi/configs/conf_void_package_distcc
+Build some packages for void-packages with distcc.
+
+void-packages/etc/conf (https://github.com/tjohann/a20_sdk/blob/master/bananapi/configs/conf_void_package_distcc):
+
+	XBPS_DISTCC=yes
+	XBPS_DISTCC_HOSTS="localhost/1 --localslots_cpp=24 baalue-01/4 baalue-02/4 baalue-03/4 baalue-04/4 baalue-05/4 baalue-06/4 baalue-07/4 baalue-08/4"
+	XBPS_MAKEJOBS=32
+
+Bootstrap:
+
+	./xbps-src binary-bootstrap
+
+Example -> build distcc (and related) via xbps-src
+
+without distcc:
+
+	./xbps-src pkg distcc
+
+	real 10m58,012s
+	user 5m56,060s
+	sys  4m29,260s
+
+
+	./xbps-src pkg distcc-pump
+
+	real 9m22,631s
+	user 5m35,500s
+	sys  4m4,480s
+
+
+	./xbps-src pkg distcc-gtk
+
+	real 9m9,318s
+	user 5m33,530s
+	sys  4m3,330s
+
+
+with distcc:
+
+	xxx
+	xxx
+	xxx
+
+
+TO-CHECK:
+- is there a hostdir/distcc-* folder?
+- is /usr/lib/distcc/bin with the links to the compiler avaiblable?
 
 
 
