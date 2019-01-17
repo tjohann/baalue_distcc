@@ -141,3 +141,9 @@ Masquerade mode
 ---------------
 
 [see distcc.md](README.md)
+
+
+Troubleshooting coss-building something with you own toolchain
+--------------------------------------------------------------
+
+You may run in such a problem, that you can`t cross-build a kernel like described above. If you take a look at the log file on your build-server, you notice a hint regarding --enable-tcp-insecure. If you work in an trusted environment, then you can simply add it to /etc/sv/distcc/run as an additional OPTIONS, or you have to masquerade your compile.
