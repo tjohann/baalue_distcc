@@ -27,9 +27,13 @@ The file hosts is a list of clients which distcc useses:
 
 Start with the most powerful node (192.168.0.1) and end with the least powerful node (192.168.0.82). Add the number of threads to use on the node (4 like 192.168.0.1/*4*). You can also add the lists of clients to ~/.distcc/hosts. Note that ./configure will run on the first machine listed, so it should be localhost. <- TODO: check if it performce better without localhost include (so localhost does only the preprocessing). Also check the impact of the number of threads (2-4 threads per node).
 
-The clients.allow (https://github.com/tjohann/a20_sdk/blob/master/bananapi/configs/clients.allow_distcc) is a list of networks or nodes which are allowed to use this node.
+The clients.allow (https://github.com/tjohann/a20_sdk/blob/master/bananapi/configs/clients.allow_distcc) is a list of networks or nodes which are allowed to use this node (Node: every node must be in a seperate line).
 
-	192.168.0.0/24 192.168.0.1
+	192.168.0.0/24
+
+or
+
+	192.168.0.1
 
 Per default distcc log to /var/log/messages.log. To change the log level and the log location add --log-level notice --log-file /var/log/distccd.log to /etc/sv/distcc/run (i added it to the OPTIONS field).
 

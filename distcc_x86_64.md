@@ -1,4 +1,4 @@
-Using distcc with two i7
+fUsing distcc with two i7
 ========================
 
 I have two i7 computer which i want to use to crossbuild kernels for my a20_sdk and to crossbuild arm926 root filesystems for my ariettas or imx233 boards. Both computer are not so different other the age:
@@ -91,7 +91,7 @@ without distcc (i7-920):
 
 	real 13m19,910s
 	user 95m4,201s
-	sys	 8m27,532s
+	sys 8m27,532s
 
 without distcc (i7-7700K):
 
@@ -99,7 +99,7 @@ without distcc (i7-7700K):
 
 	real 5m35,205s
 	user 39m58,705s
-	sys	 3m3,940s
+	sys 3m3,940s
 
 
 with distcc (localhost included in distcc/hosts and 12 threads per node):
@@ -108,7 +108,7 @@ with distcc (localhost included in distcc/hosts and 12 threads per node):
 
 	real 4m56,033s
 	user 16m36,729s
-	sys	 1m54,906s
+	sys 1m54,906s
 
 ![Alt text](pics/distcc_crossbuild_kernel.png?raw=true "distcc in action (normal mode)")
 
@@ -118,7 +118,7 @@ with pump (localhost included in distcc/hosts and 12 threads per node):
 
 	real 6m11,211s
 	user 13m16,762s
-	sys	 1m39,230s
+	sys 1m39,230s
 
 ![Alt text](pics/distcc_pump_crossbuild_kernel.png?raw=true "distcc in action (pump mode)")
 
