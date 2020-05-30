@@ -22,18 +22,18 @@ The installation via xbps-install (distcc/distcc-pump/distcc-gtk) adds the two f
 
 The file hosts is a list of clients which distcc useses:
 
-	127.0.0.1/2 192.168.0.1/4 192.168.0.80/2 192.168.0.81/2 192.168.0.82/2
+	127.0.0.1/2 192.168.178.1/4 192.168.178.80/2 192.168.178.81/2 192.168.178.82/2
 	localhost my_power_machine baalue-01 baalue-02 baalue-03
 
-Start with the most powerful node (192.168.0.1) and end with the least powerful node (192.168.0.82). Add the number of threads to use on the node (4 like 192.168.0.1/*4*). You can also add the lists of clients to ~/.distcc/hosts. Note that ./configure will run on the first machine listed, so it should be localhost. <- TODO: check if it performce better without localhost include (so localhost does only the preprocessing). Also check the impact of the number of threads (2-4 threads per node).
+Start with the most powerful node (192.168.178.1) and end with the least powerful node (192.168.178.82). Add the number of threads to use on the node (4 like 192.168.178.1/*4*). You can also add the lists of clients to ~/.distcc/hosts. Note that ./configure will run on the first machine listed, so it should be localhost. <- TODO: check if it performce better without localhost include (so localhost does only the preprocessing). Also check the impact of the number of threads (2-4 threads per node).
 
 The clients.allow (https://github.com/tjohann/a20_sdk/blob/master/bananapi/configs/clients.allow_distcc) is a list of networks or nodes which are allowed to use this node (Node: every node must be in a seperate line).
 
-	192.168.0.0/24
+	192.168.178.0/24
 
 or
 
-	192.168.0.1
+	192.168.178.1
 
 Per default distcc log to /var/log/messages.log. To change the log level and the log location add --log-level notice --log-file /var/log/distccd.log to /etc/sv/distcc/run (i added it to the OPTIONS field).
 
@@ -57,8 +57,8 @@ To use zeroconf via avahi add "+zeroconf" to hosts (i dont use it).
 Summary setup
 -------------
 
-- add clients.allow to every node (with 192.168.0.0/24 to make it easier)
-- add hosts to the server node with the list of all clients (127.0.0.1/2 192.168.0.80/2 192.168.0.81/2 192.168.0.82/2 ...)
+- add clients.allow to every node (with 192.168.178.0/24 to make it easier)
+- add hosts to the server node with the list of all clients (127.0.0.1/2 192.168.178.80/2 192.168.178.81/2 192.168.178.82/2 ...)
 
 
 Check the config with hello-distcc build
@@ -85,6 +85,8 @@ Execute hello_distcc and then delete it to try with pump mode:
 	gcc hello_distcc.o -o hello_distcc
 
 Both versions should work.
+
+Note: there`s also a version of the buildscript for using my a20_sdk crosstoolchain (build_hello_distcc_arm.sh).
 
 
 General usage
@@ -233,10 +235,10 @@ Measurement result:
 - using distcc brings no performance gain
 
 
-Use distcc to build linux kernel
---------------------------------
+Use distcc to build linux kernel (cubietruck as masternode)
+-----------------------------------------------------------
 
-Example on how to build a linux kernel for a bananapi (https://github.com/tjohann/a20_sdk/blob/master/bananapi/Documentation/howto_kernel.txt)
+Example on how to build a linux kernel for a cubietruck (https://github.com/tjohann/a20_sdk/blob/master/cubietruck/Documentation/howto_kernel_cluster_build.txt)
 
 without distcc:
 
@@ -292,8 +294,39 @@ Conclusion: "localhost baalue-01/4 baalue-02/4 baalue-03/4 baalue-04/4 baalue-05
 Hint: CONFIG_GCOV_KERNEL must be turned off otherwise the build nodes wont be used. Also remember that the preprocessing and final linking steps are done on the local node (this can take 20-30% of the total time ... if not using pump) (see https://lwn.net/Articles/702375/)
 
 
-Use pump to build linux kernel
-------------------------------
+Use distcc to build linux kernel (cubietruck-plus as masternode)
+----------------------------------------------------------------
+
+Example on how to build a linux kernel for a cubietruck-plus (https://github.com/tjohann/a20_sdk/blob/master/cubietruck-plus/Documentation/howto_kernel_cluster_build.txt)
+
+
+with distcc (localhost NOT included in distcc/hosts and 4 threads per node):
+
+	make CC=distcc -j32 LOADADDR=0x40008000 uImage modules dtbs
+
+	real 15m56,545s
+	user 79m49,928s
+	sys	20m4,033s
+
+the same kernel config on a cubietruck as masternode
+
+	make CC=distcc -j32 LOADADDR=0x40008000 uImage modules dtbs
+
+	real ...
+	user ...
+	sys	..
+
+
+Mesasurements result:
+
+- using an 8-core CPU instead of an 2-core CPU as an master makes a huge difference
+
+
+![Alt text](pics/distcc_build_kernel_cubietruck_plus.png?raw=true "load of node 04 and cubietruck-plus")
+
+
+Use pump to build linux kernel (cubietruck as masternode)
+---------------------------------------------------------
 
 Example on how to build a linux kernel for a bananapi (https://github.com/tjohann/a20_sdk/blob/master/bananapi/Documentation/howto_kernel.txt)
 
@@ -312,8 +345,8 @@ Measurement result:
 Conclusion: "baalue-01,cpp,lzo/4 baalue-02,cpp,lzo/4 baalue-03,cpp,lzo/4 baalue-04,cpp,lzo/4 baalue-05,cpp,lzo/4 baalue-06,cpp,lzo/4 baalue-07,cpp,lzo/4 baalue-08,cpp,lzo/4" .....
 
 
-Use distcc to build emacs
--------------------------
+Use distcc to build emacs (cubietruck as masternode)
+----------------------------------------------------
 
 Howto build emacs (http://ftp.gnu.org/gnu/emacs/):
 
@@ -341,10 +374,10 @@ Measurement result:
 - using distcc to build brings a performance gain
 
 
-Use distcc with void-packages
------------------------------
+Use distcc with void-packages (cubietruck-plus as masternode)
+-------------------------------------------------------------
 
-Build some packages for void-packages with distcc.
+Build some packages for void-packages (https://github.com/void-linux/void-packages) with distcc.
 
 void-packages/etc/conf (https://github.com/tjohann/a20_sdk/blob/master/bananapi/configs/conf_void_package_distcc):
 
@@ -356,9 +389,9 @@ Bootstrap:
 
 	./xbps-src binary-bootstrap
 
-Example -> build distcc (and related) via xbps-src
+Example -> build distcc (and related) via xbps-src (take 2 runs, to eleminate the build time of the dependencies like avahi)
 
-without distcc:
+without distcc (cubietruck -> 2 core):
 
 	./xbps-src pkg distcc
 
@@ -381,17 +414,17 @@ without distcc:
 	sys  4m3,330s
 
 
-with distcc:
+with distcc (cubietruck-plus -> 8 core):
 
-	xxx
-	xxx
-	xxx
+	./xbps-src pkg distcc
 
+	real	7m9,847s
+	user	3m52,805s
+	sys	1m39,547s
 
-TO-CHECK:
-- is there a hostdir/distcc-* folder?
-- is /usr/lib/distcc/bin with the links to the compiler avaiblable?
+Measurement result:
 
+- using distcc to build brings a performance gain, but keep in mind that only compile jobs will be distributed
 
 
 Use distcc to build arm926 toolchain/rootfs via buildroot for arietta
@@ -418,7 +451,7 @@ Now add /usr/lib/distcc/bin to your $PATH *before* the "normal" gcc -> add it to
 Some more thoughts
 ------------------
 
-There's a really interesting article form Willy Tarreau(http://1wt.eu/) about build farm/cluster and linux -> https://lwn.net/Articles/702375 (see the video https://www.youtube.com/watch?v=vwQ-KcjskRw&index=1&list=PLfnwKJbklIxwp09N5bM-Oj9bJzTAC3JsV and http://wiki.ant-computing.com/Choosing_a_processor_for_a_build_farm for his wiki)
+There's a really interesting article form Willy Tarreau (http://1wt.eu/) about build farm/cluster and linux -> https://lwn.net/Articles/702375 (see the video https://www.youtube.com/watch?v=vwQ-KcjskRw&index=1&list=PLfnwKJbklIxwp09N5bM-Oj9bJzTAC3JsV and http://wiki.ant-computing.com/Choosing_a_processor_for_a_build_farm for his wiki)
 
 Some summaries of that article:
 
