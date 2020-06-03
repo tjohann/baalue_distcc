@@ -306,7 +306,7 @@ with distcc (localhost NOT included in distcc/hosts and 4 threads per node):
 
 	real 15m56,545s
 	user 79m49,928s
-	sys	20m4,033s
+	sys 20m4,033s
 
 the same kernel config on a cubietruck (2 core instead of 8 core) as masternode
 
@@ -314,13 +314,14 @@ the same kernel config on a cubietruck (2 core instead of 8 core) as masternode
 
 	real 68m48,674s
 	user 81m58,231s
-	sys	44m3,516s
+	sys 44m3,516s
 
 
 Mesasurements result:
 
 - using an 8-core CPU instead of an 2-core CPU as an master makes a huge difference
-- problem with the 2-core CPU is, that it needs a lot of resources to distribute the compile jobs (see ![Alt text](pics/compile_jobs_for_baalue-04.png?raw=true "compile jobs for baalue-04"))
+- problem with the 2-core CPU is, that it needs a lot of resources to distribute the compile jobs
+![Alt text](pics/compile_jobs_for_baalue-04.png?raw=true "compile jobs for baalue-04")
 - as a result the cluster is not under full load
 
 
